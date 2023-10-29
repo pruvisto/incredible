@@ -135,30 +135,32 @@ function setupTaskSelection() {
           .appendTo(container);
       });
 
-      var textarea = $('<textarea>A&#10;────────────&#10;A</textarea>');
+      if (session["allow-custom"]) {
+          var textarea = $('<textarea>A&#10;────────────&#10;A</textarea>');
 
-      $('<div id="customtasks" class="tasklist">')
-        .append($('<div class="customtaskentry">')
-          .append(textarea)
-          .append($('<button>')
-            .text(i18n.t('Add'))
-            .attr('title', i18n.t('add-title'))
-            .on('click', function (){
-              var thisTask = taskFromText(textarea.val());
-              if (thisTask) {
-                if (!custom_tasks[session.name]) {
-                  custom_tasks[session.name] = [];
-                }
-                custom_tasks[session.name].push(thisTask);
-                setupTaskSelection();
-                saveSession();
-              } else {
-                alert(i18n.t('task-parse-error'));
-              }
-            })
-          )
-        )
-        .appendTo(container);
+          $('<div id="customtasks" class="tasklist">')
+            .append($('<div class="customtaskentry">')
+              .append(textarea)
+              .append($('<button>')
+                .text(i18n.t('Add'))
+                .attr('title', i18n.t('add-title'))
+                .on('click', function (){
+                  var thisTask = taskFromText(textarea.val());
+                  if (thisTask) {
+                    if (!custom_tasks[session.name]) {
+                      custom_tasks[session.name] = [];
+                    }
+                    custom_tasks[session.name].push(thisTask);
+                    setupTaskSelection();
+                    saveSession();
+                  } else {
+                    alert(i18n.t('task-parse-error'));
+                  }
+                })
+              )
+            )
+            .appendTo(container);
+    }
     } else {
       $("<h3>").text(i18n.t(session.name)).appendTo("#sessiontasks");
       var button;

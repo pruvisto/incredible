@@ -1,0 +1,237 @@
+rules:
+- id: allI
+  desc:
+    intro: ∀
+  free: ["P"]
+  local: ["c"]
+  ports:
+    in1:
+      type: assumption
+      proposition: P(c)
+      scoped: ["c"]
+    out2:
+      type: conclusion
+      proposition: ∀x.P(x)
+- id: allE
+  desc:
+    elim: ∀
+  free: ["P","y"]
+  ports:
+    in1:
+      type: assumption
+      proposition: ∀x.P(x)
+    out2:
+      type: conclusion
+      proposition: P(y)
+- id: exI
+  desc:
+    intro: ∃
+  free: ["P", "y"]
+  ports:
+    in1:
+      type: assumption
+      proposition: P(y)
+    out2:
+      type: conclusion
+      proposition: ∃x.P(x)
+- id: exE
+  desc:
+    elim: ∃
+  free: ["P","Q"]
+  local: ["c"]
+  ports:
+    in1:
+      type: assumption
+      proposition: ∃x.P(x)
+    in2:
+      type: assumption
+      proposition: Q
+      scoped: ["c"]
+    hyp:
+      type: local hypothesis
+      proposition: P(c)
+      consumedBy: in2
+    out:
+      type: conclusion
+      proposition: Q
+- id: conjI
+  free: ["X","Y"]
+  desc:
+    intro: ∧
+  ports:
+    in1:
+      type: assumption
+      proposition: X
+    in2:
+      type: assumption
+      proposition: "Y"
+    out:
+      type: conclusion
+      proposition: X∧Y
+- id: conjE
+  free: ["X","Y"]
+  desc:
+    elim: ∧
+  ports:
+    in:
+      type: assumption
+      proposition: X∧Y
+    out1:
+      type: conclusion
+      proposition: X
+    out2:
+      type: conclusion
+      proposition: "Y"
+- id: impI
+  desc:
+    intro: →
+  free: ["X","Y"]
+  ports:
+    hyp:
+      type: local hypothesis
+      consumedBy: in
+      proposition: X
+    in:
+      type: assumption
+      proposition: "Y"
+    out:
+      type: conclusion
+      proposition: X→Y
+- id: impE
+  desc:
+    elim: →
+  free: ["X","Y"]
+  ports:
+    in1:
+      type: assumption
+      proposition: X→Y
+    in2:
+      type: assumption
+      proposition: X
+    out:
+      type: conclusion
+      proposition: "Y"
+- id: disjI1
+  desc:
+    intro: ·∨
+  free: ["X","Y"]
+  ports:
+    in:
+      type: assumption
+      proposition: X
+    out:
+      type: conclusion
+      proposition: X∨Y
+- id: disjI2
+  desc:
+    intro: ∨·
+  free: ["X","Y"]
+  ports:
+    in:
+      type: assumption
+      proposition: "Y"
+    out:
+      type: conclusion
+      proposition: X∨Y
+- id: disjE
+  desc:
+    elim: ∨
+  free: ["X","Y","P"]
+  ports:
+    in:
+      type: assumption
+      proposition: X∨Y
+    hyp1:
+      type: local hypothesis
+      proposition: X
+      consumedBy: in1
+    in1:
+      type: assumption
+      proposition: P
+    hyp2:
+      type: local hypothesis
+      proposition: "Y"
+      consumedBy: in2
+    in2:
+      type: assumption
+      proposition: P
+    out:
+      type: conclusion
+      proposition: P
+- id: falseE
+  desc:
+    elim: ⊥
+  free: ["P"]
+  ports:
+    in:
+      type: assumption
+      proposition: "⊥"
+    out:
+      type: conclusion
+      proposition: P
+- id: notI
+  desc:
+    intro: ¬
+  free: ["P"]
+  ports:
+    hyp:
+      type: local hypothesis
+      proposition: "P"
+      consumedBy: in
+    in:
+      type: assumption
+      proposition: "⊥"
+    out:
+      type: conclusion
+      proposition: "¬P"
+- id: notE
+  desc:
+    elim: ¬
+  free: ["P"]
+  ports:
+    in1:
+      type: assumption
+      proposition: "P"
+    in2:
+      type: assumption
+      proposition: "¬P"
+    out:
+      type: conclusion
+      proposition: ⊥    
+- id: notnotI
+  free: ["P"]
+  ports:
+    in:
+      type: assumption
+      proposition: "P"
+    out:
+      type: conclusion
+      proposition: "¬¬P"
+- id: notnotE
+  free: ["P"]
+  ports:
+    in:
+      type: assumption
+      proposition: "¬¬P"
+    out:
+      type: conclusion
+      proposition: "P"
+- id: PBC
+  free: ["P"]
+  ports:
+    hyp:
+      type: local hypothesis
+      proposition: "¬P"
+      consumedBy: in
+    in:
+      type: assumption
+      proposition: "⊥"
+    out:
+      type: conclusion
+      proposition: "P"
+- id: TND
+  free: ["P"]
+  ports:
+    out:
+      type: conclusion
+      proposition: "P∨(P→⊥)"

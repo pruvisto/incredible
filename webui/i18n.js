@@ -52,7 +52,7 @@ var translations = {
 
 i18n.init({
     resStore: translations,
-    fallbackLng: 'en',
+    fallbackLng: 'de',
     debug: true,
     nsseparator: "::unused::",
     keyseparator: "::unused::",
